@@ -1,0 +1,195 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h1 class="modal-title" id="modal-basic-title">Candidate Details</h1>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="mb-3">
+        <div class="row">
+          <label for="fullName">Full Name</label>
+          <div class="col-6">
+            <input type="text" name="firstName" id="firstName" placeholder="First name" formControlName="firstName"
+              [ngClass]="{ 'is-invalid': form.controls['firstName'].invalid && (form.controls['firstName'].dirty || form.controls['firstName'].touched) }">
+            <div
+              *ngIf="form.controls['firstName'].invalid && (form.controls['firstName'].dirty || form.controls['firstName'].touched)"
+              class="invalid-feedback">
+              <p *ngIf="form.controls['firstName'].errors?.['required']">
+                First Name is required.
+              </p>
+              <p *ngIf="form.controls['firstName'].errors?.['minlength']">
+                Name must be at least 4 characters long.
+              </p>
+            </div>
+          </div>
+          <div class="col-6">
+            <input type="text" name="lastName" id="lastName" placeholder="Last name" formControlName="lastName"
+              [ngClass]="{ 'is-invalid':form.controls['lastName'].invalid && (form.controls['lastName'].dirty || form.controls['lastName'].touched)}">
+            <div
+              *ngIf="form.controls['lastName'].invalid && (form.controls['lastName'].dirty || form.controls['lastName'].touched)"
+              class="invalid-feedback">
+              <p *ngIf="form.controls['lastName'].errors?.['required']">
+                Last Name is required.
+              </p>
+              <p *ngIf="form.controls['lastName'].errors?.['minlength']">
+                Name must be at least 3 characters long.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="email">Email address</label>
+            <input type="email" name="email" id="email" placeholder="greg@hellocrowd.net" formControlName="email"
+              [ngClass]="{ 'is-invalid': form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched) }">
+            <div
+              *ngIf="form.controls['email'].invalid && (form.controls['email'].dirty || form.controls['email'].touched)"
+              class="invalid-feedback">
+              <p *ngIf="form.controls['email'].errors?.['required']">
+                Email is required.
+              </p>
+              <p *ngIf="form.controls['email'].errors?.['email']">
+                Email not valid.
+              </p>
+            </div>
+          </div>
+          <div class="col">
+            <label for="mobile">Mobile Number</label>
+            <div class="input-group mb-3 sm-3 lg-3 mobile">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                  aria-expanded="false"
+                  [ngClass]="{ 'is-invalid': form.controls['mobile'].invalid && (form.controls['mobile'].dirty || form.controls['mobile'].touched) }">+27</button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="#">+13</a>
+                  <a class="dropdown-item" href="#">+38</a>
+                  <a class="dropdown-item" href="#">+47</a>
+                </div>
+              </div>
+              <input type="number" name="mobile" class="form-control" formControlName="mobile"
+                [ngClass]="{ 'is-invalid': form.controls['mobile'].invalid && (form.controls['mobile'].dirty || form.controls['mobile'].touched) }">
+            </div>
+            <div
+              *ngIf="form.controls['mobile'].invalid && (form.controls['mobile'].dirty || form.controls['mobile'].touched)"
+              class="invalid-feedback">
+              <p *ngIf="form.controls['mobile'].errors?.['required']">
+                Mobile phone is required.
+              </p>
+              <p *ngIf="form.controls['mobile'].errors?.['pattern']">
+                Mobile phone not valid.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <label for="idNumber">Identity Number</label>
+            <div class="input-group idNumber">
+              <input type="text" name="idNumber" id="idNumber" placeholder="79PA123345" formControlName="idNumber"
+                maxlength="13"
+                [ngClass]="{ 'is-invalid': form.controls['idNumber'].invalid && (form.controls['idNumber'].dirty || form.controls['idNumber'].touched) }">
+              <div
+                *ngIf="form.controls['idNumber'].invalid && (form.controls['idNumber'].dirty || form.controls['idNumber'].touched)"
+                class="invalid-feedback">
+                <p *ngIf="form.controls['idNumber'].errors?.['required']">
+                  Id is required.
+                </p>
+                <p *ngIf="form.controls['idNumber'].errors?.['minlength']">
+                  Please enter a valid Identity Number (13 symbols).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="mb-3 address">
+        <div class="row">
+          <label for="phisicalAddress">Physical Address</label>
+          <div class="col-8">
+            <!-- <input ngx-google-places-autocomplete #placesRef="ngx-places"
+              (onAddressChange)="handleAddressChange($event)" /> -->
+            <input ngx-google-places-autocomplete #places="ngx-places"
+              (onAddressChange)="handleAddressChange($event)" (change)="handleAddressChange($event)" />
+          </div>
+          <div class="col-4">
+            <input type="text" name="address" id="address" placeholder="Country" formControlName="country">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <input type="text" name="address2" id="address2" placeholder="Address line 2 (Optional)">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <div ngbDropdown>
+              <button type="button" class="btn btn-outline-primary btn-sm" ngbDropdownToggle>Actions</button>
+              <div ngbDropdownMenu>
+                <button ngbDropdownItem>Edit</button>
+                <button ngbDropdownItem>Duplicate</button>
+                <button ngbDropdownItem>Move</button>
+                <div class="dropdown-divider"></div>
+                <button ngbDropdownItem>Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="dropdown">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="city" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                City
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuCity">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-4">
+            <input type="text" name="postalCode" id="postalCode" placeholder="Postal Code" formControlName="postalCode">
+          </div>
+        </div>
+      </div>
+      <hr />
+      <div class="mb-3 social">
+        <label for="social">Social Media Profiles</label>
+        <div class="row row-cols-2">
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="twitter">www.twitter.com/</span>
+              </div>
+              <input type="text" class="form-control" id="twitter" aria-describedby="basic-addon3">
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="facebook">www.facebook.com/</span>
+              </div>
+              <input type="text" class="form-control" id="facebook" aria-describedby="basic-addon3">
+            </div>
+          </div>
+          <div class="col">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="linkedIn">www.linkedin.com/in/</span>
+              </div>
+              <input type="text" class="form-control" id="linkedIn" aria-describedby="basic-addon3">
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-primary" aria-label="Close"
+      (click)="modal.dismiss('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>
+
+<div class="btn-section">
+  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">More about candidate</button>
+</div>
