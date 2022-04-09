@@ -48,6 +48,10 @@ export class ModalComponent implements OnInit {
       idNumber: ['', [Validators.minLength(13), Validators.required]],
       country: ['', Validators.required],
       postalCode: ['', Validators.required],
+      twitterUrl: [''],
+      facebookUrl: ['', Validators.pattern('(?:http:\/\/)?(?:www\.)?facebook\.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[\w\-]*\/)*([\w\-]*)')],
+      linkedinUrl: [''],
+
     })
   }
 
@@ -65,8 +69,24 @@ export class ModalComponent implements OnInit {
       })
   }
 
-// TODO: han
+  public splitUrl(url: string): string {
+    let res = new URL(url).pathname.split('/');
+    if (res[res.length - 1].length == 0) {
+      return res[res.length - 2]
+    } else return res[res.length - 1]
+  }
+
+  public checkUrl($event: any): any {
+    if (!!(new URL($event.target.value)) === true) {
+      console.log('valid url');
+      $event.target.value = this.splitUrl($event.target.value);
+      return this.splitUrl($event.target.value);
+    } else console.log('not valid url');
+  }
+
+  // TODO: han
   public handleAddressChange($event?: any, address?: Address) {
+    console.log($event)
     // if (address) {
     //   this.placesVariants.push(address);
     //   console.log(this.placesVariants)
